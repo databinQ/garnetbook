@@ -28,7 +28,7 @@ $$len(w) = \frac{count(w)^{3/4}}{\sum\limits_{u \in vocab} count(u)^{3/4}}$$
 
 示例图如下:
 
-![](https://images2017.cnblogs.com/blog/1042406/201707/1042406-20170728152731711-1136354166.png)
+![](pics/0x03-1.png)
 
 ## Negative Sampling的梯度计算
 
