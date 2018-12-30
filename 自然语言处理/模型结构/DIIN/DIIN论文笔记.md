@@ -52,7 +52,7 @@
    1. **part-of-speech**(`POS`), 词性特征, 使用词性的`One-Hot`特征.
    2. **binary exact match**(`EM`)特征, 指的是一个句字中的某个`word`与另一个句子中对应的`word`的词干`stem`和辅助项`lemma`相同, 则是1, 否则为0. 具体的实现和作用在论文中有另外详细的阐述.
 
-通过这三种方法, 就得到了`premise`句子$P\in{\mathbb{R}^{p\times{d}}}$和`hypothesis`句子$H\in{\mathbb{R}^{h\times{d}}}$的表示方法, 其中$p$和$h$分别表示`premise`句子和`hypothesis`句子的长度, $d$表示最终每个单词向量的长度.
+通过这三种方法, 就得到了`premise`句子$$P\in{\mathbb{R}^{p\times{d}}}$$和`hypothesis`句子$$H\in{\mathbb{R}^{h\times{d}}}$$的表示方法, 其中$$p$$和$$h$$分别表示`premise`句子和`hypothesis`句子的长度, $$d$$表示最终每个单词向量的长度.
 
 对于对`char`编码过程中使用到的`Conv1D`, 两个句子共享同样的参数, 这是毋庸置疑的.
 
@@ -60,15 +60,15 @@
 
 在这一层中, `premise`和`hypothesis`会经过一个两层的神经网络, 得到句子中的每一个`word`将会用一种新的方式表示. 然后将转换过的表示方法传入到一个`self-attention layer`中. 这种`attenion`结构在解决`NLI`问题的模型中经常出现, 目的是**考虑`word`的顺序和上下文信息**. 以`premise`为例:
 
-假设$\hat{P}\in{\mathbb{R}^{p\times{d}}}$是经过转换后的`premise`句子, $\hat{P}_i$是时序$i$位置上的`word`新的向量. 同理, $\hat{H}\in{\mathbb{R}^{h\times{d}}}$是转换后的新的`hypothesis`句子.
+假设$$\hat{P}\in{\mathbb{R}^{p\times{d}}}$$是经过转换后的`premise`句子, $$\hat{P}_i$$是时序$$i$$位置上的`word`新的向量. 同理, $$\hat{H}\in{\mathbb{R}^{h\times{d}}}$$是转换后的新的`hypothesis`句子.
 
 在转换时, 我们需要考虑当前单词与它的上下文之间的关系, 文中使用的方法是`self-attention layer`, 具体来说就是每个时间上经过编码后新的向量, 由整个句子中所有位置上的原向量考虑权重地加和产生. 而两个单词向量之间的权值就要借助`attention weight`来得到了. 以`premise`句子为例, 整个过程如下:
 
-1. 对于`premise`句子的任意两个向量$\hat{P}_{i}$和$\hat{P}_{j}$, 通过$[\textbf{a};\textbf{b};\textbf{a}\cdot \textbf{b}]$的形式组成一个交互的向量. 原向量的长度为$d$, 则新向量的长度为$3d$. 则长度为$p$的句子经过此步, 就会得到$(p,p,3d)$.
+1. 对于`premise`句子的任意两个向量$$\hat{P}_{i}$$和$$\hat{P}_{j}$$, 通过$$[\textbf{a};\textbf{b};\textbf{a}\cdot \textbf{b}]$$的形式组成一个交互的向量. 原向量的长度为$$d$$, 则新向量的长度为$$3d$$. 则长度为$$p$$的句子经过此步, 就会得到$$(p,p,3d)$$.
 
-2. 使用共享的`attention weight`$\textbf{w}_a$与$[\textbf{a};\textbf{b};\textbf{a}\cdot \textbf{b}]$进行点乘. $\textbf{w}_a$的是长度为$3d$的向量. 所有的`word`之间共享这一参数向量. 因此点乘的结果为一个形状为$(p,p)$的矩阵, 用$A$表示, $A_{ij}$则是两个`word`之间的关系值.
+2. 使用共享的`attention weight`$$\textbf{w}_a$$与$$[\textbf{a};\textbf{b};\textbf{a}\cdot \textbf{b}]$$进行点乘. $$\textbf{w}_a$$的是长度为$$3d$$的向量. 所有的`word`之间共享这一参数向量. 因此点乘的结果为一个形状为$$(p,p)$$的矩阵, 用$$A$$表示, $$A_{ij}$$则是两个`word`之间的关系值.
 
-3. 使用`softmax`的方法计算权重, 即对于每一行$i$, 对应的新的向量为:
+3. 使用`softmax`的方法计算权重, 即对于每一行$$i$$, 对应的新的向量为:
 
    $$\bar{P}_i=\sum\limits_{j=1}^{p}\frac{\exp(A_{ij})}{\sum_{k=1}^{p}\exp(A_{kj})}\hat{P}_{j}$$
 
@@ -97,7 +97,7 @@
 
 
 
-4. 然后将新得到的$d$维向量和原本的$d$维向量合并在一起组成$2d$向量, 再传入`semantic composite fuse gate(fuse gate)`, 这种把encoding后的向量和原特征向量拼在一起在传入下一层模型的方法, 如同`skip connection`(类比于ResNet). `fuse gate`结构如下:
+4. 然后将新得到的$$d$$维向量和原本的$$d$$维向量合并在一起组成$$2d$$向量, 再传入`semantic composite fuse gate(fuse gate)`, 这种把encoding后的向量和原特征向量拼在一起在传入下一层模型的方法, 如同`skip connection`(类比于ResNet). `fuse gate`结构如下:
 
    $$z_i=\tanh(W_1^T[\hat{P}_i;\bar{P}_i]+\textbf{b}_1)$$
 
@@ -107,7 +107,7 @@
 
    $$\tilde{P}_i=\textbf{r}_i \cdot \hat{P}_i + \textbf{f}_i \cdot \textbf{z}_i$$
 
-   这里的$W_1$, $W_2$, $W_3$的形状为$(2d,d)$, $b_1$, $b_2$, $b_3$为长度为$d$的向量. 都是可训练的参数. $\sigma$为`sigmoid`函数.
+   这里的$$W_1$$, $$W_2$$, $$W_3$$的形状为$$(2d,d)$$, $$b_1$$, $$b_2$$, $$b_3$$为长度为$$d$$的向量. 都是可训练的参数. $$\sigma$$为`sigmoid`函数.
 
 需要注意的是, 在这一层中, `premise`和`hypothesis`两个句子是**不共享参数**的, 但是为了让两个句子的参数相近, 两个句子在相同位置上的变量, 会对他们之间的差距做L2正则惩罚, 将这种惩罚计入总的`loss`, 从而在训练过程中, 保证了参数的近似.
 
@@ -115,17 +115,17 @@
 
 #### Interaction Layer
 
-对两个句子的`word`进行编码之后, 就要考虑两个句子相互作用的问题了. 对于长度为$p$的`premise`和长度为$h$的`hypothesis`, 对于他们的每个单词$i$和$j$, 将代表它们的向量**逐元素点乘**, 这样就得到了一个形状为$(p, h, d)$的两个句子相互作用后的结果. 可以把他们认为是一个`2-d`的图像, 有`d`个通道.
+对两个句子的`word`进行编码之后, 就要考虑两个句子相互作用的问题了. 对于长度为$$p$$的`premise`和长度为$$h$$的`hypothesis`, 对于他们的每个单词$$i$$和$$j$$, 将代表它们的向量**逐元素点乘**, 这样就得到了一个形状为$$(p, h, d)$$的两个句子相互作用后的结果. 可以把他们认为是一个`2-d`的图像, 有`d`个通道.
 
 #### Feature Extraction Layer
 
 由于两个句子相互作用产生了一个`2-d`的结果, 因此我们可以通过使用那些平常用在图像上的`CNN`方法结构, 来提取特征, 例如`ResNet`效果就很好. 但考虑到模型的效率, 与参数的多少, 论文中使用了`DenseNet`这种结构. 这种结构的具体论文参见[Densely Connected Convolutional Networks](https://arxiv.org/abs/1608.06993). 这一层整体的过程如下:
 
-1. 上一步得到的结果我们记为$I$, 形状为$(p, h, d)$. 首先使用一个$1\times{1}$的卷积核, 按一定的缩小比例$\eta$, 将现有的$d$层通道缩小为$floor(d \times{\eta})$.
+1. 上一步得到的结果我们记为$$I$$, 形状为$$(p, h, d)$$. 首先使用一个$$1\times{1}$$的卷积核, 按一定的缩小比例$$\eta$$, 将现有的$$d$$层通道缩小为$$floor(d \times{\eta})$$.
 
 2. 再将得到的结果传入到一个三层结构中, 三层的结构完全相同. 每一层由一对`Dense block`和`transition block`组成. 两种`block`是串联关系.
 
-   1. `DenseNet`本身是由`n`层的$3\times{3}$的卷积层组成, 中间没有池化层. 每层的输出通道数量是一样的, 记为`growth rate`. 且每层的输出, 都会并上这一层的输入, 作为下一层的输入. 这样也起到了类似于`ResNet`的`skip`效果. 代码如下:
+   1. `DenseNet`本身是由`n`层的$$3\times{3}$$的卷积层组成, 中间没有池化层. 每层的输出通道数量是一样的, 记为`growth rate`. 且每层的输出, 都会并上这一层的输入, 作为下一层的输入. 这样也起到了类似于`ResNet`的`skip`效果. 代码如下:
 
       ```python
       def __dense_block(self, x, nb_layers, growth_rate, dropout_rate=None, apply_batch_norm=False):
@@ -135,7 +135,7 @@
           return x, K.int_shape(x)[self.concat_axis]
       ```
 
-   2. `transition block`这是一层简单的$1\times{1}$的卷积层, 目的是按照一定的比例压缩输出的通道. 这里的压缩比例跟上面的$\eta$是不相关的, 记为$\theta$. 之后再在后面接上一个`MaxPool`, 考虑的范围是$2\times{2}$大小. 代码如下:
+   2. `transition block`这是一层简单的$$1\times{1}$$的卷积层, 目的是按照一定的比例压缩输出的通道. 这里的压缩比例跟上面的$$\eta$$是不相关的, 记为$$\theta$$. 之后再在后面接上一个`MaxPool`, 考虑的范围是$$2\times{2}$$大小. 代码如下:
 
       ```python
           def __transition_block(self, x, nb_filter, compression, apply_batch_norm):
