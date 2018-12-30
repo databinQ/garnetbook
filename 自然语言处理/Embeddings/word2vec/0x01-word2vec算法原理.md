@@ -4,7 +4,7 @@
 
 CBOW是**Continuous Bag-of-Words Model**的缩写, 这个模型的任务是**根据上下文的词语预测当前词语的出现概率的模型**, 表示如下图:
 
-![](http://garnet.oss-cn-shenzhen.aliyuncs.com/18-10-21/56101793.jpg)
+![](pics/56101793.jpg)
 
  
 
@@ -26,7 +26,7 @@ $$C$$为语料库, $$w$$为其中的任意一个词. 从公式中看出模型的
 
 Skip-gram模型与CBOW模型的思路相反, 即已知当前词语, 预测上下文的词语, 结构如下:
 
-![](http://garnet.oss-cn-shenzhen.aliyuncs.com/18-10-21/12838369.jpg)
+![](pics/12838369.jpg)
 
 与CBOW模型的区别在于:
 

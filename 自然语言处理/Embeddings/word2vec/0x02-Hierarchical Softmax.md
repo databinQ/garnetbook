@@ -21,7 +21,7 @@
 
 将霍夫曼树应用在**投影层**(Projection Layer)到**输出层**之间, 用霍夫曼树的结构代替了*softmax*层的映射. 避免了计算字典中所有单词的softmax概率, 在每个结点只需要判断左右两个行进方向, 沿着树一直走到样本单词对应的叶子结点, 整体结构示例如下:
 
-![](http://ww3.sinaimg.cn/large/6cbb8645gw1f5wmy4jdnwj214w12a42v.jpg)
+![](pics/6cbb8645gw1f5wmy4jdnwj214w12a42v.jpg)
 
 这种霍夫曼树形状的神经网络结构为:
 
@@ -66,7 +66,7 @@ $$\mathcal{L}=\log \prod_{j=2}^{l_w}P(d_j^w|x_w, \theta_{j-1}^w) = \sum\limits_{
 
 - 每个结点的参数向量$$\theta^w_{j-1}$$, 求得偏导数为:
 
-  $$\begin{align} \frac{\partial L}{\partial \theta_{j-1}^w} & = (1-d_j^w)\frac{(\sigma(x_w^T\theta_{j-1}^w)(1-\sigma(x_w^T\theta_{j-1}^w)}{\sigma(x_w^T\theta_{j-1}^w)}x_w - d_j^w \frac{(\sigma(x_w^T\theta_{j-1}^w)(1-\sigma(x_w^T\theta_{j-1}^w)}{1- \sigma(x_w^T\theta_{j-1}^w)}x_w  \\ & =  (1-d_j^w)(1-\sigma(x_w^T\theta_{j-1}^w))x_w -  d_j^w\sigma(x_w^T\theta_{j-1}^w)x_w \\& = (1-d_j^w-\sigma(x_w^T\theta_{j-1}^w))x_w \end{align}$$
+  $$\begin{aligned} \frac{\partial L}{\partial \theta_{j-1}^w} & = (1-d_j^w)\frac{(\sigma(x_w^T\theta_{j-1}^w)(1-\sigma(x_w^T\theta_{j-1}^w)}{\sigma(x_w^T\theta_{j-1}^w)}x_w - d_j^w \frac{(\sigma(x_w^T\theta_{j-1}^w)(1-\sigma(x_w^T\theta_{j-1}^w)}{1- \sigma(x_w^T\theta_{j-1}^w)}x_w  \\ & =  (1-d_j^w)(1-\sigma(x_w^T\theta_{j-1}^w))x_w -  d_j^w\sigma(x_w^T\theta_{j-1}^w)x_w \\& = (1-d_j^w-\sigma(x_w^T\theta_{j-1}^w))x_w \end{aligned}$$
 
 - 单词$$w$$对应的嵌入参数向量$$x_w$$, 这就是我们最终需要的单词对应的词向量. 求得到偏导数为
 
