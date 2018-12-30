@@ -163,4 +163,3 @@ $$p(\text{Context}(w)|w)=\prod\limits_{u\in{\text{Context(w)}}}p(u|w)$$
 [word2vec原理推导与代码分析](http://www.hankcs.com/nlp/word2vec.html)
 
 [word2vec原理(二) 基于Hierarchical Softmax的模型](https://www.cnblogs.com/pinard/p/7243513.html)
-
