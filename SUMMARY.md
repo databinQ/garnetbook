@@ -91,6 +91,8 @@
         - [后向算法](自然语言处理/概率图模型/生成式模型/HMM/后向算法.md)
         - [HMM训练学习](自然语言处理/概率图模型/生成式模型/HMM/HMM训练学习.md)
         - [维特比算法](自然语言处理/概率图模型/生成式模型/HMM/维特比算法.md)
+    - [判别式模型](自然语言处理/概率图模型/判别式模型)
+      - [CRF](自然语言处理/概率图模型/判别式模型/CRF)
   - [句子相似性](自然语言处理/句子相似性)
     - [句子相似性求解总结](自然语言处理/句子相似性/句子相似性求解总结.md)
     - [论文阅读 A SIMPLE BUT TOUGH-TO-BEAT BASELINE FOR SEN- TENCE EMBEDDINGS](自然语言处理/句子相似性/论文阅读 A SIMPLE BUT TOUGH-TO-BEAT BASELINE FOR SEN- TENCE EMBEDDINGS)
