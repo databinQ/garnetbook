@@ -126,6 +126,8 @@
     * [pip使用技巧](Python/pip/pip使用技巧.md)
   * [scipy](Python/scipy)
     * [使用stats包处理分布和概率问题](Python/scipy/使用stats包处理分布和概率问题.md)
+  - [sklearn](Python/sklearn)
+    - [特征与目标值相关性的评价方法及对应的检验方法](Python/sklearn/特征与目标值相关性的评价方法及对应的检验方法.md)
   * [并发](Python/并发)
     * [多线程](Python/并发/多线程)
       * [0x01 线程基础](Python/并发/多线程/0x01 线程基础.md)
