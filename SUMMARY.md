@@ -121,6 +121,7 @@
     - [LightFM](推荐算法/Matrix-Factorization/LightFM)
       - [模型原理](推荐算法/Matrix-Factorization/LightFM/模型原理.md)
       - [使用例子](推荐算法/Matrix-Factorization/LightFM/使用例子.md)
+      - [冷启动推荐](推荐算法/Matrix-Factorization/LightFM/冷启动推荐.md)
 * [Python](Python)
   - [built-in](Python/built-in)
     - [借助isinstance判断对象类型](Python/built-in/借助isinstance判断对象类型.md)
