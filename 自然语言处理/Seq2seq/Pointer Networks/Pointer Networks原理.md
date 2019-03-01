@@ -91,6 +91,16 @@ $$P(w)=p_{gen}P_{vocab}(w)+(1-p_{gen})\sum\limits_{i:w_i=w}a^t_i$$
 
 如果单词$$w$$不在词汇表中(out-of-vocabulary, OOV), $$P_{vocab}(w)=0$$, 同理, 如果单词不在输入序列中, 后面一项为0. 这样就将两个模型的结果结合在了一起.
 
+## Transformer结合Pointer Networks
+
+![](pics/640.jpg)
+
+有人在比赛中使用了如上图的结构完成文本摘要任务, 使用到了Transformer结构, 并使用Pointer Network从原文中摘取特有的单词作为最终的结果, 更多的细节参考: [Byte Cup 2018国际机器学习竞赛夺冠记](https://mp.weixin.qq.com/s?src=11&timestamp=1551182220&ver=1452&signature=d93-ssOOTGtLox6xojro0NthbotAxFtEy*7TGBQ*d8UaPzmx75jrZ4MXsiokbSpyUjX85GJfPDiQiWeA1agv17qfahFgXaGXM9EmtstgrszckPfNfnQXWh0zHUlYa763&new=1).
+
+可以看出计算pointer generator使用的attention来自于encoder结果和decoder隐变量进行结合的地方.
+
+另外$$p_{gen}$$的计算比较灵活, 这里直接使用了当前时间点的输出表征向量来计算得到.
+
 ## 参考资料
 
 - [Pointer Networks简介及其应用](https://zhuanlan.zhihu.com/p/48959800)
