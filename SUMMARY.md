@@ -151,6 +151,8 @@
       - [稀疏矩阵的类型](Python/scipy/稀疏矩阵/稀疏矩阵的类型.md)
     * [使用stats包处理分布和概率问题](Python/scipy/使用stats包处理分布和概率问题.md)
   - [sklearn](Python/sklearn)
+    - [贝叶斯模型](Python/sklearn/贝叶斯模型)
+      - [sklearn中的朴素贝叶斯模型](Python/sklearn/贝叶斯模型/sklearn中的朴素贝叶斯模型.md)
     - [特征与目标值相关性的评价方法及对应的检验方法](Python/sklearn/特征与目标值相关性的评价方法及对应的检验方法.md)
   * [并发](Python/并发)
     * [多线程](Python/并发/多线程)
