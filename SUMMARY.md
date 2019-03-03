@@ -128,6 +128,8 @@
       - [模型原理](推荐算法/Matrix-Factorization/LightFM/模型原理.md)
       - [使用例子](推荐算法/Matrix-Factorization/LightFM/使用例子.md)
       - [冷启动推荐](推荐算法/Matrix-Factorization/LightFM/冷启动推荐.md)
+  - [工程实践](推荐算法/工程实践)
+    - [使用Keras实现MF模型的训练](推荐算法/工程实践/使用Keras实现MF模型的训练.md)
 * [Python](Python)
   - [built-in](Python/built-in)
     - [借助isinstance判断对象类型](Python/built-in/借助isinstance判断对象类型.md)
