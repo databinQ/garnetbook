@@ -175,6 +175,15 @@ movie_embedding_learnt = model.get_layer(name='MovieEmbedding').get_weights()[0]
 pd.DataFrame(movie_embedding_learnt).head()
 ```
 
+```
+        0	        1	        2
+0	0.851071	1.189640	1.343072
+1	0.781866	0.685529	1.433414
+2	0.993590	0.669892	1.075678
+3	0.646283	1.750475	0.724367
+4	0.888808	0.577949	1.447080
+```
+
 ## 参考文章
 
 - [Recommender Systems in Keras](https://nipunbatra.github.io/blog/2017/recommend-keras.html)
