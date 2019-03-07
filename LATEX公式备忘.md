@@ -102,3 +102,6 @@ $$\sigma$$			`\sigma`				$$\varsigma$$			`\varsigma`			$$\Sigma$$				`\Sigma`
 
 偏导数		`\partial`			$$\partial$$
 
+##### 二元运算符
+
+逐元素乘    `\circ`     $$\circ$$

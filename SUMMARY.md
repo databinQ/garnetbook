@@ -107,6 +107,8 @@
   - [模型结构](自然语言处理/模型结构)
     - [DIIN](自然语言处理/模型结构/DIIN)
       - [DIIN论文笔记](自然语言处理/模型结构/DIIN/DIIN论文笔记.md)
+    - [NB-SVM](自然语言处理/模型结构/NB-SVM)
+      - [NB-SVM模型原理即应用](自然语言处理/模型结构/NB-SVM/NB-SVM模型原理即应用.md)
   - [Seq2seq](自然语言处理/Seq2seq)
     - [Pointer Networks](自然语言处理/Seq2seq/Pointer Networks)
       - [Pointer Networks原理](自然语言处理/Seq2seq/Pointer Networks/Pointer Networks原理.md)
