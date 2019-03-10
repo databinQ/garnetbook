@@ -102,6 +102,11 @@ $$\sigma$$			`\sigma`				$$\varsigma$$			`\varsigma`			$$\Sigma$$				`\Sigma`
 
 偏导数		`\partial`			$$\partial$$
 
+---
+
 ##### 二元运算符
 
-逐元素乘    `\circ`     $$\circ$$
+意义| LATEX语法 | 显示 | 备注
+--|--|--|--
+逐元素乘 | `\circ` | $$\circ$$
+排列在前 | `\triangleright` | $$\triangleright$$ | $$A \triangleright B$$, A排列在B之前
