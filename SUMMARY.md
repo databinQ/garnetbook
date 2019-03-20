@@ -14,6 +14,7 @@
     - [Based on hierarchy](机器学习/聚类算法/Based on hierarchy)
       - [基础的层次聚类算法](机器学习/聚类算法/Based on hierarchy/基础的层次聚类算法.md)
       - [BIRCH层次聚类算法](机器学习/聚类算法/Based on hierarchy/BIRCH层次聚类算法.md)
+      - [CURE层次聚类算法](机器学习/聚类算法/Based on hierarchy/CURE层次聚类算法.md)
   * [训练技巧](机器学习/训练技巧)
     * [提升模型鲁棒性, 训练效率, 模型效果的方法总结](机器学习/训练技巧/提升模型鲁棒性, 训练效率, 模型效果的方法总结.md)
   * [超参数调节](机器学习/超参数调节)
