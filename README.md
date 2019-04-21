@@ -1,5 +1,7 @@
 # GARNET BOOK
 
+[Gitbook](https://blessbingo.gitbook.io/garnet-tech/)
+
 这里是我的学习笔记. 主要内容包含:
 
 - 机器学习
