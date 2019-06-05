@@ -138,6 +138,8 @@
     - [论文阅读 A SIMPLE BUT TOUGH-TO-BEAT BASELINE FOR SEN- TENCE EMBEDDINGS](自然语言处理/句子相似性/论文阅读 A SIMPLE BUT TOUGH-TO-BEAT BASELINE FOR SEN- TENCE EMBEDDINGS)
   - [小样本学习](自然语言处理/小样本学习)
     - [NLP中的小样本学习概述](自然语言处理/小样本学习/NLP中的小样本学习概述.md)
+    - [Metric Based](自然语言处理/小样本学习/Metric-Based)
+      - [[论文阅读]Siamese Neural Networks for One-shot Image Recognition](自然语言处理/小样本学习/Metric-Based/[论文阅读]Siamese Neural Networks for One-shot Image Recognition.md)
   - [模型结构](自然语言处理/模型结构)
     - [DIIN](自然语言处理/模型结构/DIIN)
       - [DIIN论文笔记](自然语言处理/模型结构/DIIN/DIIN论文笔记.md)
