@@ -136,6 +136,8 @@
   - [句子相似性](自然语言处理/句子相似性)
     - [句子相似性求解总结](自然语言处理/句子相似性/句子相似性求解总结.md)
     - [论文阅读 A SIMPLE BUT TOUGH-TO-BEAT BASELINE FOR SEN- TENCE EMBEDDINGS](自然语言处理/句子相似性/论文阅读 A SIMPLE BUT TOUGH-TO-BEAT BASELINE FOR SEN- TENCE EMBEDDINGS)
+  - [小样本学习](自然语言处理/小样本学习)
+    - [NLP中的小样本学习概述](自然语言处理/小样本学习/NLP中的小样本学习概述.md)
   - [模型结构](自然语言处理/模型结构)
     - [DIIN](自然语言处理/模型结构/DIIN)
       - [DIIN论文笔记](自然语言处理/模型结构/DIIN/DIIN论文笔记.md)
