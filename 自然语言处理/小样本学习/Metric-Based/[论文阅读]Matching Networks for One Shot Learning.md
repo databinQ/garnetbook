@@ -46,3 +46,54 @@ $$a\left(\hat{x}, x_{i}\right)=e^{c\left(f(\hat{x}), g\left(x_{i}\right)\right)}
 
 这是论文中比较重要的一部分, 但在实际使用中可以选择性使用. 这一章节的目的是使用不同的方法, 分别对test和support set中的样本进行更好的表征, 充分利用support set中的信息. 当然如果不使用本章节的结构, 直接使用神经网络表征器(test, support set共享一套参数)也是可以的.
 
+在目前为止的框架中, 我们使用$$f$$和$$g$$对test和support set中的样本进行embedding, 然后使用`attend`, `point`, `knn`等形式得到对test的类别预测. 这样的形式有两个不足:
+
+- support set中的每个样本$$x_i$$是相互独立的, 得到embedding向量$$g(x_i)$$的过程也是相互独立的, 互相之间不影响
+- test样本$$\hat{x}$$也是用过$$f(\hat{x})$$来得到embedding向量的, 而且现在的$$f$$和$$g$$使用的是同样的抽取器. 但由于$$\hat{x}$$的类别是由support set中的样本决定的, 那么$$\hat{x}$$的embedding向量$$f(\hat{x})$$的抽取, support set也应当参与进来
+
+因此使用**Full Context Embeddings**这种思想的引领下, 希望对support set中的每个样本$$x_i$$以及test样本$$\hat{x}$$的样本的embedding, 都应该受到整个support set $$S$$的影响.
+
+分别来说.
+
+#### Full Context Embeddings $$g$$
+
+对于support set中的样本$$x_i$$, 它的embedding向量就由$$g(x_i)$$变为了$$g(x_i, S)$$. 至于为什么这么做, 作者是这样解释的:
+
+> This could be useful when some element $$x_j$$ is very close to $$x_i$$, in which case it may be beneficial to change the function with which we embed $$x_i$$.
+
+如何做到整个support set $$S$$去影响样本$$x_i$$的表征过程呢? 论文中使用了**bi-LSTM**去对$$x_i$$进行编码. 使用这种方法, 就需要把support set中的所有样本考虑成一个序列, 一个一个进行输入, 依次得到每个样本的$$x_i$$的表征向量.
+
+这里就产生了一个新的问题, 原来support set中无序的样本, 如何合理的进行排序. 文章参考了[Order Matters: Sequence to sequence for sets](https://arxiv.org/abs/1511.06391)这篇论文中的方法.
+
+具体来说, 将原来的表征器得到表征向量(样本之间相互独立)重新记为$$g^{\prime}\left(x_{i}\right)$$, 样本新的表征$$g(x_i, S)$$为:
+
+$$g\left(x_{i}, S\right)=\vec{h}_{i}+\overleftarrow{h}_{i}+g^{\prime}\left(x_{i}\right)$$
+
+即原始表征向量$$g^{\prime}\left(x_{i}\right)$$和bi-LSTM对应输入位置的隐向量的加和:
+
+$$\begin{aligned}
+\vec{h}_{i}, \vec{c}_{i} &=\operatorname{LSTM}\left(g^{\prime}\left(x_{i}\right), \vec{h}_{i-1}, \vec{c}_{i-1}\right) \\ \overleftarrow{h}_{i}, \overleftarrow{c}_{i} &=\operatorname{LSTM}\left(g^{\prime}\left(x_{i}\right), \overleftarrow{h}_{i+1}, \overline{c}_{i+1}\right)
+\end{aligned}$$
+
+本质上相当于使用bi-LSTM结构对support set中的样本序列进行表征, 但添加了一个**skip connection**结构, 即最后加上的$$g^{\prime}\left(x_{i}\right)$$, 加快了训练的速度和鲁棒性.
+
+#### Full Context Embeddings $$f$$
+
+对于test样本$$\hat{x}$$, 这里也使用一种带**attention**的**LSMT**结构进行表征, 注意这里的LSTM与上面对support set中样本表征使用的是不同的网络(单向, 双向就能体现出来), 由于这里的表征也使用到了整个support set, 因此将新的表征向量记为:
+
+$$f(\hat{x}, S)=\operatorname{attL} \operatorname{STM}\left(f^{\prime}(\hat{x}), g(S), K\right)$$
+
+其中$$f^{\prime}(\hat{x})$$是原始的表征器对test样本的表征向量. $$K$$是固定的数值, 代表这里LSTM推进的步数. $$g(S)$$是一个集合, 包含了support set中每个样本的表征向量(full content embeddings得到的).
+
+具体来说, 在执行到第$$k$$步时, 使用如下的方式得到这一步的隐向量:
+
+$$\hat{h}_{k}, c_{k}=\operatorname{LSTM}\left(f^{\prime}(\hat{x}),\left[h_{k-1}, r_{k-1}\right], c_{k-1}\right)$$
+
+需要注意:
+
+- 无论在哪一步, 输入都是固定的$$f^{\prime}(\hat{x})$$, 即原始的test样本的表征向量
+- 这里使用的LSTM中的隐向量是$$h_{k-1}$$和$$r_{k-1}$$拼接得到的. 因此长度是输入表征向量的两倍, 对输出的维度没有影响
+
+得到这一步LSTM隐向量之后, 这一步的最终输出如下表示:
+
+$$h_{k}=\hat{h}_{k}+f^{\prime}(\hat{x})$$
