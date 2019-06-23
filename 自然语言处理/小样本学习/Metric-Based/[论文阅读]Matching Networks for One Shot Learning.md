@@ -122,3 +122,23 @@ $$\theta$$既是模型中需要训练的参数. 作为一种**meta-learning**模
 
 代码参考repository: [markdtw/matching-networks](https://github.com/markdtw/matching-networks). `model.py`中定义了Matching Networks, `main.py`中包含了数据集划分为train和test集合的方法, 以及整个训练的过程. 下面是一些需要注意的细节, 帮助更好的理解模型.
 
+首先是计算test样本与support set样本中每个样本的相似度:
+
+```python
+def cosine_similarity(self, target, support_set):
+    """the c() function that calculate the cosine similarity between (embedded) support set and (embedded) target
+    
+    note: the author uses one-sided cosine similarity as zergylord said in his repo (zergylord/oneshot)
+    """
+    #target_normed = tf.nn.l2_normalize(target, 1) # (batch_size, 64)
+    target_normed = target
+    sup_similarity = []
+    for i in tf.unstack(support_set):
+        i_normed = tf.nn.l2_normalize(i, 1) # (batch_size, 64)
+        similarity = tf.matmul(tf.expand_dims(target_normed, 1), tf.expand_dims(i_normed, 2)) # (batch_size, )
+        sup_similarity.append(similarity)
+
+    return tf.squeeze(tf.stack(sup_similarity, axis=1)) # (batch_size, n * k)
+```
+
+这里使用了**one-sided cosine similarity**.(but why?)
