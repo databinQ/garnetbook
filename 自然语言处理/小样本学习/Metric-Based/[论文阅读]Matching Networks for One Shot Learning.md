@@ -97,3 +97,28 @@ $$\hat{h}_{k}, c_{k}=\operatorname{LSTM}\left(f^{\prime}(\hat{x}),\left[h_{k-1},
 得到这一步LSTM隐向量之后, 这一步的最终输出如下表示:
 
 $$h_{k}=\hat{h}_{k}+f^{\prime}(\hat{x})$$
+
+至此, 得隐向量还都是只与test样本相关的, 没有引入support set的作用. 而我们需要通过$$r_{k-1}$$引入support set中的信息. 为此, 在这一步得到隐向量之后, 计算这个隐向量与support set中所有样本的$$x_i$$的表征向量$$g(x_i)$$的关系, 这一步也称为计算**content based attention**.
+
+$$a\left(h_{k}, g\left(x_{i}\right)\right)=\operatorname{softmax}\left(h_{k}^{T} g\left(x_{i}\right)\right)$$
+
+然后使用这个attention值作为权重, 对support set中所有的表征向量进行加权求和, 得到$$r_k$$.
+
+$$r_{k}=\sum_{i=1}^{|S|} a\left(h_{k}, g\left(x_{i}\right)\right) g\left(x_{i}\right)$$
+
+然后再将这个向量与计算得到的这一步的隐向量$$h_k$$拼接起来, 作为当前LSTM网络的隐向量, 继续下一步的执行.
+
+因为这里的LSTM要执行$$K$$步, 就取最后一步的输出$$h_K$$, $$\operatorname{attLSTM}\left(f^{\prime}(\hat{x}), g(S), K\right)=h_{K}$$作为最终对test样本的表征向量$$f(\hat{x})$$.
+
+### 训练策略
+
+$$\theta=\arg \max _{\theta} E_{L \sim T}\left[E_{S \sim L, B \sim L}\left[\sum_{(x, y) \in B} \log P_{\theta}(y | x, S)\right]\right]$$
+
+$$\theta$$既是模型中需要训练的参数. 作为一种**meta-learning**模型, 首先从task$$T$$中抽样一次**episode**(meta-learning中一次训练, 即support set + batch set)所需要的label set $$L$$, 然后再从每个抽取到的label对应的样本集中, 抽取一定的样本, 从而组成了n-way k-shot的训练方法.
+
+需要注意的是, 如果用来测试的$$T^{\prime}$$与用来训练的$$T$$差距很大(例如判断动物类别和检测检测人脸)的话, 得到的结果也是不准确的.
+
+## 代码
+
+代码参考repository: [markdtw/matching-networks](https://github.com/markdtw/matching-networks). `model.py`中定义了Matching Networks, `main.py`中包含了数据集划分为train和test集合的方法, 以及整个训练的过程. 下面是一些需要注意的细节, 帮助更好的理解模型.
+
