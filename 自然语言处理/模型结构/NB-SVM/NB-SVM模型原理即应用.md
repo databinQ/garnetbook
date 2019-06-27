@@ -73,7 +73,7 @@ $$
 
 作者提出, **MNB模型**和**SVM模型**之间的**线性插值**的结果对于**所有形式的文本**都表现的更好, 插值的具体方式为:
 
-$$\mathbf{w}^{'} = (1-\beta)\bar{w} + \beta \mathbf{w}$$
+$$\mathbf{w}^{\prime} = (1-\beta)\bar{w} + \beta \mathbf{w}$$
 
 其中$$\bar{w}=||\mathbf{w}||_1 / |V|$$是对$$\mathbf{w}$$量级的一个均值评估. $$\beta \in [0, 1]$$. 如果$$\beta=0$$, 相当于是直接使用$$\mathbf{\tilde{f}}=\mathbf{\hat{r}} \circ \mathbf{\hat{f}}$$来做分类, 即相当于只使用**MNB**模型. 因此上式是MNB模型和SVM模型之间的一种插值.
 
