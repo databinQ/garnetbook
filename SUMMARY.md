@@ -160,6 +160,7 @@
       - [Subwords原理](自然语言处理/Seq2seq/Subwords/Subwords原理.md)
   - [解码](自然语言处理/解码)
     - [维特比算法](自然语言处理/解码/Viterbi.md)
+    - [Beam search](自然语言处理/解码/Beam-search.md)
   - [模块结构](自然语言处理/模块结构)
     - [Gate](自然语言处理/模块结构/Gate)
       - [GLU](自然语言处理/模块结构/Gate/GLU)
