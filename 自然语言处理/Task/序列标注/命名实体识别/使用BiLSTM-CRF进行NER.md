@@ -49,7 +49,7 @@ $$\log P(y_{x}|x)=score(x,y_{x})-\log(\sum_{y'}\exp(score(x,y')))$$
 
 ### 预测
 
-模型在预测过程解码时使用动态规划的**Viterbi算法*来求解最优路径.
+模型在预测过程解码时使用动态规划的**Viterbi算法**来求解最优路径.
 
 $$y^{*}=\arg\max_{y'}score(x,y')$$
 
