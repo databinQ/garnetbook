@@ -185,6 +185,7 @@
     - [LDA](自然语言处理/主题模型/LDA)
       - [LDA](自然语言处理/主题模型/LDA/LDA.md)
   - [工具使用](自然语言处理/工具使用)
+    - [同义词工具](自然语言处理/工具使用/同义词工具.md)
     - [StandfordNLP](自然语言处理/工具使用/StanfordNLP.md)
 - [推荐算法](推荐算法)
   - [Matrix Factorization](推荐算法/Matrix-Factorization)
