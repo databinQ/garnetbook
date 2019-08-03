@@ -1,3 +1,7 @@
+## 推荐文章
+
+强烈推荐这篇文章, 非常清楚: [简明条件随机场CRF介绍（附带纯Keras实现）](https://kexue.fm/archives/5542#how_to_cite).
+
 ## BiLSTM-CRF模型
 
 ### 论文参考
