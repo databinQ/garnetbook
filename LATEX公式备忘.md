@@ -1,5 +1,9 @@
 ##### 希腊字母
 
+英文表示| 小写 | LATEX语法 | 大写 | LATEX语法
+--|--|--|--|--
+delta | $$\delta$$ | `\delta` | $$\Delta$$ $$\varDelta$$ | `\Delta` `\varDelta`
+
 $$\tau$$			`\tau`
 
 $$\eta$$			`\eta`
