@@ -195,3 +195,15 @@ $$\text{ensemble\_error}(T)=\sum{t=\lfloor 1+T / 2\rfloor}^{T}\left(\begin{array
 ### 引入完整性
 
 论文中, 是通过**POS-Guided Phrasal Segmentation**方法, 为短语的抽取提供完整性的依据.
+
+如名所示, 具体的方法是通过重新分词来实现的, 这种分词是短语级别的, 而且是借助了**词性标签**(POS-tag). 对于一个长度为$$n$$的句子(字/词序列), 如下表示:
+
+$$
+\Omega=\Omega_{1} \Omega_{2} \ldots \Omega_{n}
+$$
+
+其中$$\Omega_{i}$$为当前位置的词和词性组成的对$$\left\langle w_{i}, t_{i}\right\rangle$$. POS-Guided Phrasal Segmentation将这个序列分成$$m$$个子序列($$m-1$$个分割点), 包含收尾序列的分割点集合表示为$$B=\left\{b_{1}, b_{2}, \dots, b_{m+1}\right\}$$, $$1=b_{1}<b_{2}<\ldots<b_{m+1}=n+1$$, 第$$i$$段子序列表示为$$\Omega_{b_{i}} \Omega_{b_{i}}+1 \cdots \cdot \Omega_{b_{i+1}-1}$$.
+
+选择pos-tag辅助进行分词, 原因是pos-tag中包含浅层的, 语法信息, 这对于检测短语是有帮助的(例如特定的词性序列是几乎不可能组成短语的).
+
+具体的分割方法有些复杂, 它是一种基于模型的算法, 使用Viterbi进行训练. 详细内容还需阅读原论文.
