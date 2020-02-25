@@ -108,4 +108,4 @@ $$
 
 PReLU(Parametric Rectified Linear Unit)在形式上与上面两种改进的ReLU都类似. Leaky ReLU与ELU都需要人工指定超参数$$\alpha$$, 但PReLU将超参数$$\alpha$$作为可训练的参数, 避免了对激活函数中超参数的调参.
 
-
+PReLU
