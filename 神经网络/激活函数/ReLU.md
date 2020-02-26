@@ -64,6 +64,10 @@ $$
 
 另外, **大的学习率**往往会引起或加剧这个问题. 梯度更新的步幅过大, 使得网络中的神经元转为dying neuron. 因此在训练ReLU为激活函数的网络时, 最好使用较小的学习率.
 
+#### RNN中使用ReLU导致梯度爆炸
+
+参考: [RNN 中为什么要采用 tanh，而不是 ReLU 作为激活函数？](https://www.zhihu.com/question/61265076/answer/186347780)
+
 ### 改进
 
 #### Leaky ReLU
@@ -108,4 +112,40 @@ $$
 
 PReLU(Parametric Rectified Linear Unit)在形式上与上面两种改进的ReLU都类似. Leaky ReLU与ELU都需要人工指定超参数$$\alpha$$, 但PReLU将超参数$$\alpha$$作为可训练的参数, 避免了对激活函数中超参数的调参.
 
-PReLU
+PReLU的提出是结合CNN的. PReLU函数的定义如下
+
+$$
+f\left(y_{i}\right)=\left\{\begin{array}{ll}
+{y_{i},} & {\text { if } y_{i}>0} \\
+{a_{i} y_{i},} & {\text { if } y_{i} \leq 0}
+\end{array}\right.
+$$
+
+输入到激活函数中的$$y_i$$表示第$$i$$个**输出**通道, $$y_i$$其实对应更常用的$$z_i$$. $$a_i$$是控制这一通道负半轴的斜率参数, 在训练中更新. 因此不同的输出通道对应着不同的斜率参数.
+
+这样的确引入了额外的网络参数, 但由于每一层增加了相应通道数的参数, 相比于原本的参数量是可以忽略不计的.
+
+参数$$a$$的更新策略与普通参数相同, 对于每步训练, 首先得到对应的导数:
+
+$$
+\frac{\partial \mathcal{E}}{\partial a_{i}}=\sum_{y_{i}} \frac{\partial \mathcal{E}}{\partial f\left(y_{i}\right)} \frac{\partial f\left(y_{i}\right)}{\partial a_{i}}
+$$
+
+$$\frac{\partial \mathcal{E}}{\partial f\left(y_{i}\right)}$$是损失对激活函数输出值的偏导, 而激活函数的输出对输入的导数为:
+
+$$
+\frac{\partial f\left(y_{i}\right)}{\partial a_{i}}=\left\{\begin{array}{ll}
+{0,} & {\text { if } y_{i}>0} \\
+{y_{i},} & {\text { if } y_{i} \leq 0}
+\end{array}\right.
+$$
+
+导数公式中$$\sum y_{i}$$指的是对应层输出中的所有位置得到的值的累加. 最后, 如同普通参数一样更新:
+
+$$
+\Delta a_{i}:=\mu \Delta a_{i}+\epsilon \frac{\partial \mathcal{E}}{\partial a_{i}}
+$$
+
+在`Keras`的实现中, PReLU默认会对输出的每个位置都设定一个独立的可训练斜率参数, 例如对于2D-CNN网络, 当前层的输出为`(batch, height, width, channels)`, 默认每个通道的每个位置的斜率参数都是独立的. 如果想实现通道内共享同一斜率参数, 可以在定义时使用`shared_axes`参数指定共享参数的维度, 指定为`[1, 2]`即每个通道共享同一参数.
+
+PReLU来自论文[Delving Deep into Rectifiers: Surpassing Human-Level Performance on ImageNet Classification](https://arxiv.org/abs/1502.01852).
