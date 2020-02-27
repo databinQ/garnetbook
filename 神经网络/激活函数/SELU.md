@@ -9,6 +9,8 @@ $$
 \end{array}\right.
 $$
 
+推理得到的$$\lambda=1.0507$$, $$\alpha=1.67326$$.
+
 对应图像为:
 
 ![](img/v2-2d51f81e5b2037f1ced6e84ba3041dd0_720w.jpg)
@@ -55,6 +57,25 @@ $$
 首先定义均值和方差的值域$$\Omega=\left\{(\mu, \nu) | \mu \in\left[\mu_{\mathrm{min}}, \mu_{\max }\right], \nu \in\right.\left.\left[\nu_{\min }, \nu_{\max }\right]\right\}$$, 如果一个网络是满足`Self-normalizing`的, 应当满足:
 
 - 对于**单个神经元**, 其输出值与输入向量的均值和方差是没有变化的, 即$$g: \Omega \mapsto \Omega$$. 这个关系是依赖于该神经元的参数向量, 等同于依赖$$(\omega, \tau)$$
-- 
+- 对于任何输入样本, 输出的均值和方差都能够保持在$$\Omega$$范围内, $$g(\Omega) \subseteq \Omega$$. 随着层数的推进, 输出的均值和方差最终收敛到$$\Omega$$范围内的一个固定点上
 
+SELU激活函数使得网络达到self-normalization的状态, 使每层的输出都能够维持在均值为0, 方差为1的状态.
 
+### SELU使用注意
+
+1. SELU激活函数需要配和**lecun normalization**初始化方法使用, lecun normalization初始化即从均值为0, 标准差为`stddev = sqrt(1 / fan_in)`的正态分布中抽取样本, `fan_in`表示权重张量对应的**输入向量**
+
+2. SELU激活函数需要配和**AlphaDropout**使用, AphaDropout可以保持输入的均值和标准差.
+    - 训练过程中, AlphaDropout会以从伯努利分布中采样到的概率p使一些元素置零. 每次前向传递过程中, 保留的元素都是随机且会进行缩放和移位以保持0均值和单位标准差
+
+### SELU优缺点
+
+**优点**:
+
+- 证明保证不会出现梯度消失和梯度爆炸问题
+- 神经网络能够实现**自归一化**(self-normalizing), 无需使用其他的归一化技术
+
+**缺点**:
+
+- 需要使用特定的初始化方法(lecun normalization)和Dropout方法(Alpha Dropout)
+- 证明条件严格, 实际情况难满足
