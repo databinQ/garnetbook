@@ -17,6 +17,6 @@
 
 **[为什么相比于RNN, LSTM在梯度消失上表现更好](https://www.zhihu.com/question/44895610)**
 
-**[Why LSTMs Stop Your Gradients From Vanishing: A View from the Backwards Pass](https://weberna.github.io/blog/2017/11/15/LSTM-Vanishing-Gradients.html#fn:3)**
+**[Why LSTMs Stop Your Gradients From Vanishing: A View from the Backwards Pass](https://weberna.github.io/blog/2017/11/15/LSTM-Vanishing-Gradients.html)**
 
 从数学原理上解释了LSTM为什么能解决梯度消失问题(不能解决梯度爆炸问题). 问题的关键就在于后向传播时, **细胞状态**(cell state)之间偏导连乘在原始RNN中随着时间步的增加趋近于0, 但LSTM通过**门结构**(gate)解决里这个问题. 通过训练过程中学习到的参数, 解决了远距离梯度消失的问题, 也即长短距离记忆问题.
