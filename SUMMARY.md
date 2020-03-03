@@ -288,4 +288,5 @@
     - [梯度消失问题](神经网络/激活函数/梯度消失问题.md)
     - [零中心问题](神经网络/激活函数/零中心问题.md)
   - [Normalization](神经网络/Normalization)
+    - [Normalization综述](神经网络/Normalization/Normalization综述.md)
     - [Batch Normalization与Dropout不能共存的原因](神经网络/Normalization/Batch-Normalization与Dropout不能共存的原因.md)
