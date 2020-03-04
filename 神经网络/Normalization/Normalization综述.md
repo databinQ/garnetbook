@@ -46,7 +46,7 @@ $$h=f\left(\mathbf{g} \cdot \frac{\mathbf{x}-\mu}{\sigma}+\mathbf{b}\right)$$
 
 ## 主流Normalization
 
-- Batch Normalization
+- [Batch Normalization](Batch-Normalization.md)
 - Layer Normalization
-- Weight Normalization
+- Instance Normalization
 - Group Normalization
