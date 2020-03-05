@@ -121,3 +121,4 @@ $$\mathbf{h}_{t}=\phi\left( \mathrm{BN}\left(\mathrm{W}_{h} \mathrm{h}_{t-1} ; \
 # 参考资料
 
 - [Batch Normalization导读](https://zhuanlan.zhihu.com/p/38176412)
+- [常用的 Normalization 方法：BN、LN、IN、GN](https://blog.csdn.net/ai_study/article/details/101523486)
