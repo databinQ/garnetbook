@@ -75,7 +75,6 @@ $$\mathbf{h}_{t}=\phi\left( \mathrm{BN}\left(\mathrm{W}_{h} \mathrm{h}_{t-1} ; \
 
 前后分别对应着水平方向的BN和垂直方向上的BN.
 
-
 但无论是水平方向还是垂直方向, 使用BN都需要考虑使用方法, 即均值, 方差是如何被计算出来的.
 
 ![](img/v2-f3421896b4d78f957602f4cb434cac05_1440w.jpg)
@@ -104,6 +103,20 @@ $$\mathbf{h}_{t}=\phi\left( \mathrm{BN}\left(\mathrm{W}_{h} \mathrm{h}_{t-1} ; \
 
 - [Batch Normalization的概述和应用包括在CNN和RNN中的应用](https://blog.csdn.net/yimingsilence/article/details/80261383)
 - [模型优化之Layer Normalization](https://zhuanlan.zhihu.com/p/54530247)
+
+## BN的优缺点
+
+### 优点
+
+- 保持隐藏层中数值的均值, 方差不变, 让数值更稳定, 为后面网络提供坚实的基础, 加快了收敛速度
+- 允许较大的学习率
+- 有轻微的正则化作用, 相当于给隐藏层加入噪声
+- 减弱对初始化的强依赖性
+
+### 缺点
+
+- 每次是在一个batch上计算均值, 方差, 如果batch size太小, 则计算的均值, 方差不足以代表整个数据分布
+- batch size太大, 计算时会超过内存容量
 
 # 参考资料
 
