@@ -61,8 +61,64 @@ $$\sigma_{c}(x)=\sqrt{\frac{1}{N H W} \sum_{n=1}^{N} \sum_{h=1}^{H} \sum_{w=1}^{
 
 ## BN与RNN
 
+![](img/20160531222759781.jpg)
 
+RNN使用BN结构, 有**水平方向**和**垂直方向**两个方向. 水平方向就是在时间维度上展开, 垂直方向是多层RNN的叠加形成Stacked RNN. 直观上在水平/时间方向上引入BN是更自然的一种选择, 但多篇论文对两个方向上使用BN进行了探讨和实验, 在[Batch normalization是否适用于循环神经网络？](https://www.zhihu.com/question/350853003)文章中有简单的探讨.
+
+用公式来表示两个方向使用BN, RNN中$$t$$时间的隐层输出为:
+
+$$\mathbf{h}_{t}=\phi\left(\mathbf{W}_{h} \mathbf{h}_{t-1}+\mathbf{W}_{x} \mathbf{x}_{t}\right)$$
+
+使用BN之后:
+
+$$\mathbf{h}_{t}=\phi\left( \mathrm{BN}\left(\mathrm{W}_{h} \mathrm{h}_{t-1} ; \gamma_{h}, \beta_{h}\right)+\mathrm{BN}\left(\mathrm{W}_{x} \mathrm{x}_{t} ; \gamma_{x}, \beta_{x}\right) \right)$$
+
+前后分别对应着水平方向的BN和垂直方向上的BN.
+
+但无论是水平方向还是垂直方向, 使用BN都需要考虑使用方法, 即均值, 方差是如何被计算出来的.
+
+![](img/v2-f3421896b4d78f957602f4cb434cac05_1440w.jpg)
+
+为详细说明, 以上图为例, 输入是$$N \times C \times T$$的维度, $$N$$为batch size, $$C$$为隐层的神经元数量, $$T$$为时间长度. 上图中的这个batch中共有5个样本, 且这5个样本的长度参差不齐, 隐层的长度也为5. 对于Batch Normalization, 计算均值和方差时自然要在整个batch上进行, 所以计算均值和方差有以下几个方案.
+
+- $$N$$: 这种方案代表着对每个时间片中每个隐层神经元都计算并统计均值, 方差, 并设置再偏移和再缩放的可训练参数. 这种方案带来的参数是最多的
+- $$N \times C$$: 即对每个时间片计算一个均值, 方差. 一个时间片上的所有神经元共享统计值
+- $$N \times T$$: 神经元角度, 计算单个神经元在所有时间片上的均值和方差
+
+后面两种是如同在CNN中使用BN一样, 从参数共享的角度考虑.
+
+因为RNN网络是按时间维度进行推进的, 相对于可以展开成一个**隐藏层共享参数的MLP**, 而且最终层数由输入数据的时间片的数量决定, RNN是一个动态的网络. 一个自然的想法就是每个时间片进行独立的统计, 即对应$$N$$和$$N \times C$$两种情况. 但这种情况存在一个问题:
+
+每个样本的有效长度是不同的, 当统计到比较靠后的时间片时, 此时batch中的样本就很少了. 例如上图当$$t\gt4$$时, 这个batch size为5的batch就只有一个样本了, 也就无从统计均值和方差, BN也无法推进. 所以每个时间片分别统计这种策略存在一定的问题.
+
+再看$$N \times T$$这种策略, 即对于每个神经元进行统计. 这个角度与FNN中的类似, 也是考虑到RNN中不同时间片的权值共享的情况. 但权值共享不等于输入相似, 实际中, 不同时间片的输入分布有差别才是正常的现象, 而将这种差别强行堆叠在一个量中, 显然是不太合适的. 就如同FNN, CNN中, 所有layer共享BN参数.
+
+另外还有一个原因, RNN时间片之间是串行的, 对于同一个神经元, 在前后不同时间片进行统计时使用到的数据量也是不同的, 靠后明显有更多的数据, 这样也就产生了偏差.
+
+因此在RNN中如何使用BN就成了一个问题, 实际上不同论文对RNN+BN不同方法的效果验证之间也是有矛盾的.
+
+实践上, 如果RNN需要使用Normalization, 更多的是使用**Layer Normalizaiton**.
+
+这一部分可以参考:
+
+- [Batch Normalization的概述和应用包括在CNN和RNN中的应用](https://blog.csdn.net/yimingsilence/article/details/80261383)
+- [模型优化之Layer Normalization](https://zhuanlan.zhihu.com/p/54530247)
+
+## BN的优缺点
+
+### 优点
+
+- 保持隐藏层中数值的均值, 方差不变, 让数值更稳定, 为后面网络提供坚实的基础, 加快了收敛速度
+- 允许较大的学习率
+- 有轻微的正则化作用, 相当于给隐藏层加入噪声
+- 减弱对初始化的强依赖性
+
+### 缺点
+
+- 每次是在一个batch上计算均值, 方差, 如果batch size太小, 则计算的均值, 方差不足以代表整个数据分布
+- batch size太大, 计算时会超过内存容量
 
 # 参考资料
 
 - [Batch Normalization导读](https://zhuanlan.zhihu.com/p/38176412)
+- [常用的 Normalization 方法：BN、LN、IN、GN](https://blog.csdn.net/ai_study/article/details/101523486)
