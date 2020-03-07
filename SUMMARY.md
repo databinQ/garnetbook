@@ -290,4 +290,6 @@
   - [Normalization](神经网络/Normalization)
     - [Normalization综述](神经网络/Normalization/Normalization综述.md)
     - [Batch Normalization](神经网络/Normalization/Batch-Normalization.md)
+    - [Layer Normalization](神经网络/Normalization/Layer-Normalization.md)
     - [Batch Normalization与Dropout不能共存的原因](神经网络/Normalization/Batch-Normalization与Dropout不能共存的原因.md)
+    - [Conditional Normalization](神经网络/Normalization/Conditional-Normalization.md)

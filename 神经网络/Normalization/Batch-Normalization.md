@@ -45,6 +45,8 @@ $$y=\frac{\gamma}{\sqrt{\operatorname{var}[x]+\epsilon}} \cdot x+\left(\beta-\fr
 
 在CNN中使用Batch Normalization, 秉承了CNN的核心思想, **权值共享**, 对于每个通道, 使用同样的参数, 类似于将一个通道作为一个神经元来处理.
 
+![](img/v2-cc921c4c597e89a862785a842b0c4293_1200x500.jpg)
+
 假设卷积后, 进入激活函数之前, 此时的**feature map**的大小为$$(N, C, H, W)$$, 其中$$N$$是batch size, $$C$$为通道数量, $$H$$和$$W$$分别为高和宽. 对于每个通道, 我们计算得到一个均值和方差**标量**, 并设置一个可训练的再偏移参数和再缩放参数**标量**, 因此卷积层最后得到的均值, 方差等向量的长度为该层通道的数量.
 
 单个通道的均值和方差计算公式如下, 都是标量:
@@ -117,8 +119,10 @@ $$\mathbf{h}_{t}=\phi\left( \mathrm{BN}\left(\mathrm{W}_{h} \mathrm{h}_{t-1} ; \
 
 - 每次是在一个batch上计算均值, 方差, 如果batch size太小, 则计算的均值, 方差不足以代表整个数据分布
 - batch size太大, 计算时会超过内存容量
+- 在训练接和测试集**方差较大**的时候, 应谨慎使用BN
 
 # 参考资料
 
 - [Batch Normalization导读](https://zhuanlan.zhihu.com/p/38176412)
-- [常用的 Normalization 方法：BN、LN、IN、GN](https://blog.csdn.net/ai_study/article/details/101523486)
+- [如何区分并记住常见的几种 Normalization 算法](https://zhuanlan.zhihu.com/p/69659844)
+- [模型优化之Batch Normalization](https://zhuanlan.zhihu.com/p/54171297)
