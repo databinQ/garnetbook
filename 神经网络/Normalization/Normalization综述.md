@@ -44,9 +44,19 @@ $$h=f\left(\mathbf{g} \cdot \frac{\mathbf{x}-\mu}{\sigma}+\mathbf{b}\right)$$
 
 因此, 对于每一层, 层中的每个神经元, 都会由**再平移参数**和**再缩放参数**调整最终的偏移缩放量. 这个参数是在训练过程中学习到的, 使得每个神经元都能够学习到独特的知识, 表现出不同的形式, 保护了**非线性**能力, 同时又保证了其输入不会随着输入的变化而发生大的变化.
 
+## Normalization原理再探讨
+
+以上在说Normalization有效的原因在于能够缓解**Internal Covariate Shift**问题, 但[How Does Batch Normalization Help Optimization?]https://arxiv.org/abs/1805.11604)这篇论文否定了Normalization在于解决ICS问题, 而是因为起到了**平滑损失平面**的作用, 平滑的损失平面加快了收敛速度.
+
+![](img/v2-eced33baa7d8e7cc410ac12f7818463b_720w.jpg)
+
+作者证明了在经过Batch Normalization处理后, 损失函数满足Lipschitz连续, 即**损失函数的梯度小于一个常量**, 因此网络的损失平面不会震荡的过于严重. 而且损失函数的梯度也满足Lipschitz连续, 也称为$$\beta$$平滑, 即斜率的斜率也不会超过一个常量.
+
+作者认为当着两个常量的值均比较小的时候, 损失平面就可以看做是平滑的. BN收敛快的原因是由于**BN产生了更光滑的损失平面**.
+
 ## 主流Normalization
 
 - [Batch Normalization](Batch-Normalization.md)
-- Layer Normalization
+- [Layer Normalization](Layer-Normalization.md)
 - Instance Normalization
 - Group Normalization
