@@ -10,7 +10,7 @@
 
 ## 形式
 
-$$L_{fl}=\left\{\begin{aligned}&-(1-\hat{y})^{\gamma}\log \hat{y},\,\text{当}y=1\\ &-\hat{y}^{\gamma}\log (1-\hat{y}),\,\text{当}y=0\end{aligned}\right.$$
+$$L_{fl}=\left\{\begin{aligned}&-(1-\hat{y})^{\gamma}\log \hat{y},\quad y=1\\ &-\hat{y}^{\gamma}\log (1-\hat{y}),\quad y=0\end{aligned}\right.$$
 
 Focal loss的形式如上式. 它是按照如何解决样本不平衡分类的问题呢?
 
@@ -24,11 +24,11 @@ $$L_{fl}=\left\{\begin{aligned}&-\alpha(1-\hat{y})^{\gamma}\log \hat{y},\,\text{
 
 与上面相比较, 多了一个$$\alpha$$. $$\alpha$$的作用为, 在正样本是少数样本的场景中, 由于$$(1-\hat{y})^{\gamma}$$和$$\hat{y}^{\gamma}$$的操控, 模型会更关注正样本, 但这个度可能会过, 有些极端, 因此需要用一个参数对正样本产生的loss进行降权, 将注意力效果拉回来一点.
 
-一般取$$\alpha=0.5$$, $$\gamma=2$$即可, $$\alpha=0.5$$在不确定效果, 没有能力对其进行调参时, 最好不使用, 即用0.5即可.
+一般取$$\alpha=0.5$$, $$\gamma=2$$即可, $$\alpha$$在不确定效果, 没有能力对其进行调参时, 最好不使用, 即用0.5即可.
 
 上式是二分类的情况, 推广到多分类即为:
 
-$$L_{fl}=-(1-\hat{y}_t)^{\gamma}\log \hat{y}_t$$
+$$L_{fl}=-\alpha_{t}(1-\hat{y}_t)^{\gamma}\log \hat{y}_t$$
 
 其中的$$\hat{y}_t$$就是经过softmax之后的对目标的预测值.
 

@@ -1,3 +1,5 @@
+Softmax Loss即Softmax-交叉熵损失函数.
+
 ## Softmax-交叉熵求导
 
 参考[Softmax-交叉熵求导](Softmax-交叉熵求导.md).
@@ -41,4 +43,46 @@ $$Z=e^{z_1}+e^{z_2}+e^{z_3}$$
 **参考资料**:
 
 - [Keras中自定义复杂的loss函数](https://kexue.fm/archives/4493)
-- [为什么softmax很少会出现[0.5，0.5]？](https://www.zhihu.com/question/362870151)
+- [为什么softmax很少会出现[0.5, 0.5]?](https://www.zhihu.com/question/362870151)
+
+#### 解决方法
+
+减缓这种情况的一个思路, 就是不再去拟合One-hot分布.
+
+- 一种思路是使用**soft label**, 例如二分类就使用$$[0.5, 0.5]$$这种label
+- **noise label**也是一种思路, 对于一些的样本, 在训练过程的不同batch中, 使用不同的label
+
+另外还有一种方法是在softmax loss的基础上, 不再去单纯的拟合One-hot分布, 而是分出一小部分去拟合**均匀分布**, 对应的新loss为:
+
+$$loss = -(1-\varepsilon)\log \Big(e^{z_1}/Z\Big)-\varepsilon\sum_{i=1}^n \frac{1}{3}\log \Big(e^{z_i}/Z\Big),\, Z=e^{z_1}+e^{z_2}+e^{z_3}$$
+
+拟合均匀分布的loss只占$$\varepsilon$$这么一小部分. 这样, 盲目增大参数, 使得$$e^{z_1}/Z$$接近于1, 这种情况就不再是优化loss时的最优解了, 因此缓解了softmax函数带来的过分自信的情况, 同时缓解了过拟合的现象.
+
+这个方案对应的在`keras`框架中的代码为:
+
+```python
+from keras.layers import Input,Embedding,LSTM,Dense
+from keras.models import Model
+from keras import backend as K
+
+word_size = 128
+nb_features = 10000
+nb_classes = 10
+encode_size = 64
+
+input = Input(shape=(None,))
+embedded = Embedding(nb_features,word_size)(input)
+encoder = LSTM(encode_size)(embedded)
+predict = Dense(nb_classes, activation='softmax')(encoder)
+
+def mycrossentropy(y_true, y_pred, e=0.1):
+    loss1 = K.categorical_crossentropy(y_true, y_pred)
+    loss2 = K.categorical_crossentropy(K.ones_like(y_pred)/nb_classes, y_pred)
+    return (1-e)*loss1 + e*loss2
+
+model = Model(inputs=input, outputs=predict)
+model.compile(optimizer='adam', loss=mycrossentropy)
+```
+
+这里的$$\varepsilon$$对应为写死的0.1, 最好在上面的函数外再包一层工厂函数, 将损失函数作为闭包返回.
+
