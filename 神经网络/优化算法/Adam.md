@@ -36,6 +36,10 @@ Adam继承了Adagrad自适应学习率的特性, 对于稀疏梯度处理较好.
 
 ## Adam的问题
 
+### 显存占用过多
+
+因为要计算一阶动量和二阶动量, 根据平滑更新的方法, 要保存当前时刻对应的值. 因此Adam占用的显存实际上是纯参数占用量的三倍. 这对于一些包含很多参数的大模型来说, 将会造成显存溢出.
+
 ### 可能不收敛
 
 论文[On the Convergence of Adam and Beyond](https://openreview.net/forum?id=ryQu7f-RZ)探讨了Adam算法的收敛性, 通过反例证明了Adam在某些情况下可能会不收敛.

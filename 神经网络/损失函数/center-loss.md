@@ -2,7 +2,7 @@
 
 **Center loss**与triplet loss本质上都是一种**度量学习**. 与triplet loss需要构造正样本和负样本不同, center loss只需要在原来的softmax分类模型基础上, 在特征提取完毕后引入关于center loss的计算即可, 如下图:
 
-![](imgs/v2-b2f979b42da7e6862c655cfb1f7162a6_hd.jpg)
+![](img/v2-b2f979b42da7e6862c655cfb1f7162a6_hd.jpg)
 
 然后两部分按比例加在一起, 组成最终的损失进行训练. 这里的比例是一个超参数.
 
