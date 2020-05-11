@@ -307,3 +307,8 @@
       - [XLNET代码分析(二)](神经网络/二阶段模型/XLNET/XLNET代码分析二/index.md)
       - [XLNET代码分析(三)](神经网络/二阶段模型/XLNET/XLNET代码分析三/index.md)
       - [XLNET代码分析(四) Fine-tuning部分](神经网络/二阶段模型/XLNET/XLNET代码分析四/index.md)
+- [网络框架](网络框架)
+  - [keras](网络框架/keras)
+    - [错误和坑](网络框架/keras/errors)
+      - [fit时的错误](网络框架/keras/errors/fit时的错误)
+        - [AttributeError: 'ProgbarLogger' object has no attribute 'log_values'](网络框架/keras/errors/fit时的错误/ProgbarLogger.md)
