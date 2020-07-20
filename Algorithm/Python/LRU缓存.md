@@ -267,4 +267,5 @@ else:
 # 参考资料
 
 - [Python 实现LRU Cache](https://www.cnblogs.com/dion-90/articles/8540787.html)
+- [面试必备之LRU cache的前世今生和实现原理](https://zhuanlan.zhihu.com/p/76553221)
 - [python 刷题小技巧之 lru_cache](https://zhuanlan.zhihu.com/p/79544192)
