@@ -141,6 +141,7 @@
 
 ## 四方向搜索
 
+- [[130][中等][并查集][DFS] 被围绕的区域](/Algorithm/图/130-被围绕的区域.md)
 - [[[剑指Offer-12][中等][DFS] 矩阵中的路径](/Algorithm/DFS/剑指Offer-12-矩阵中的路径.md)
 - [[[剑指Offer-13][中等][DFS] 机器人的运动范围](/Algorithm/DFS/剑指Offer-13-机器人的运动范围.md)
 
